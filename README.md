@@ -2,17 +2,17 @@
 
 This repo contains the code for adding a gradient ascent-based autofocussing proceedure to a setup.
 
-This code originates from the [UDNS Lab]() at TU Eindhoven.
+This code originates from the [UDNS Lab](https://www.ultrafastdynamics.com/) at TU Eindhoven.
 
 ## Installation
 
 Clone this respository:
 
 ```
-git clone ???
+git clone https://github.com/0Hughman0/autofocus.git
 ```
 
-Then in your environment, e.g. conda environment, navigate to this directory and run:
+Then in your environment, e.g. conda environment, navigate to the directory with `pyproject.toml` in and run:
 
 ```
 pip install .
@@ -20,7 +20,7 @@ pip install .
 
 This will install the `autofocus` package, and its dependencies.
 
-After installation, the `autofocus` package will be available for you to import an utilise.
+After installation, the `autofocus` package will be available for you to import and utilise in your code.
 
 ## Usage
 
@@ -32,22 +32,6 @@ Provided below is an example used in our setups:
 class PumpCtrl(PumpCtrlABC):
     """
     Wraps the Control_xyz_stage driver to allow it to be used by AutoFocus.
-
-    Examples
-    --------
-    ```python
-    with (
-            Control_LI() as li, Control_ScanningMirror(li) as mirror, 
-            Control_xyz_stage('Axis 1', 'Axis 2', 'Axis 3') as stage
-        ):
-        # Create an autofocus object
-        auto = AutoFocus(
-            ProbeCtrl(mirror), # Allows autofocus to control the mirror.
-            PumpCtrl(stage), # Allows autofocus to control the xyz stage.
-            wrap_lockin(li, wait=0.1, poll_time=1, negate=True), # uses these parameters when polling the lockin.
-            dr=0.05 # other parameters e.g. the step size used when calculating gradients.
-        )
-    ```
     """
 
     def __init__(self, stage: 'Control_xyz_stage'):
@@ -73,22 +57,6 @@ class PumpCtrl(PumpCtrlABC):
 class ProbeCtrl(ProbeCtrlABC):
     """
     Wraps Control_ScanningMirror to allow it to be used by AutoFocus.
-
-    Examples
-    --------
-    ```python
-    with (
-            Control_LI() as li, Control_ScanningMirror(li) as mirror, 
-            Control_xyz_stage('Axis 1', 'Axis 2', 'Axis 3') as stage
-        ):
-        # Create an autofocus object
-        auto = AutoFocus(
-            ProbeCtrl(mirror), # Allows autofocus to control the mirror.
-            PumpCtrl(stage), # Allows autofocus to control the xyz stage.
-            wrap_lockin(li, wait=0.1, poll_time=1, negate=True), # uses these parameters when polling the lockin.
-            dr=0.05 # other parameters e.g. the step size used when calculating gradients.
-        )
-    ```
     """
 
     def __init__(self, mirror: 'Control_ScanningMirror'):
@@ -116,31 +84,6 @@ class ProbeCtrl(ProbeCtrlABC):
 def wrap_lockin(lockin: 'Control_LI', wait=0, negate=True, **poll_kwargs) -> ResponseFunc:
     """
     Wrap the Control_LI to allow it to be used by AutoFocus.
-
-    Paramters
-    ---------
-    wait: float
-        how long to wait before polling
-    negate: bool
-        if True (default), will negate (i.e. multiply by -1) the value taken from the lockin.
-    **poll_kwargs:
-        These are key word arguments that are passed to lockin.read_signal, see that function signature for options.
-
-    Examples
-    --------
-    ```python
-    with (
-            Control_LI() as li, Control_ScanningMirror(li) as mirror, 
-            Control_xyz_stage('Axis 1', 'Axis 2', 'Axis 3') as stage
-        ):
-        # Create an autofocus object
-        auto = AutoFocus(
-            ProbeCtrl(mirror), # Allows autofocus to control the mirror.
-            PumpCtrl(stage), # Allows autofocus to control the xyz stage.
-            wrap_lockin(li, wait=0.1, poll_time=1, negate=True), # uses these parameters when polling the lockin.
-            dr=0.05 # other parameters e.g. the step size used when calculating gradients.
-        )
-    ```
     """
     def get_response(x, y, z):
         time.sleep(wait)
@@ -159,7 +102,7 @@ from ustm.drivers import (
         Control_LI, Control_ScanningMirror, Control_xyz_stage, ProbeCtrl, PumpCtrl, wrap_lockin
     )
 
-from autofocus import AutoFocus
+from autofocus import do_autofocus
 
 with (
         Control_LI() as li, Control_ScanningMirror(li) as mirror, 
@@ -183,3 +126,4 @@ with (
             # laser exploding
             break
 ```
+

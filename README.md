@@ -127,3 +127,28 @@ with (
             break
 ```
 
+# Development
+
+To develop the code, first clone it:
+
+```
+git clone https://github.com/0Hughman0/autofocus.git
+```
+
+Create a new environment e.g. with conda `conda create -n autofocus python=3.10`.
+
+Then perform an editable installation that includes dev dependencies:
+
+```
+pip install -e .[dev]
+```
+
+Now the installation points to the code in the `autofocus/` directory.
+
+The automated test suite can be ran with:
+
+```
+pytest
+```
+
+

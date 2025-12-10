@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autofocus"
+description = "A package for running a gradient ascent autofocussing proceedure."
+dynamic = ["version"]
+dependencies = [
+    "numpy~=1.26.4",
+    "matplotlib~=3.8.4"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest~=8.3.5"
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "autofocus.__version__"}

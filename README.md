@@ -1,6 +1,6 @@
 # AutoFocus
 
-This repo contains the code for adding a gradient-ascent-based autofocussing procedure to a setup.
+This repo contains the code for adding a gradient-ascent-based autofocussing procedure to a pump-probe optical setup.
 
 This code originates from the [UDNS Lab](https://www.ultrafastdynamics.com/) at TU Eindhoven.
 
@@ -150,6 +150,7 @@ The automated test suite can be ran with:
 ```
 pytest
 ```
+
 
 
 
